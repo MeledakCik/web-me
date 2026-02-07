@@ -30,9 +30,6 @@ Dibangun menggunakan **Next.js**, **Tailwind CSS**, dan **shadcn/ui** dengan fok
 - Node.js (API File System)
 - Git & GitHub
 
----
-
-## 📂 Struktur Project
 
 ```
 
