@@ -36,19 +36,6 @@ Dibangun menggunakan **Next.js**, **Tailwind CSS**, dan **shadcn/ui** dengan fok
 
 ```
 
-app/
-├─ api/
-│   └─ files/          # API untuk membaca folder & file
-├─ me/                 # Halaman CV / Dashboard
-├─ layout.tsx
-└─ page.tsx
-
-public/
-└─ penyimpanan/
-├─ script_ig/
-├─ game/
-└─ lainnya...
-
 ````
 
 ---
