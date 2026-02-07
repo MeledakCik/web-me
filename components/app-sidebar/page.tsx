@@ -1,5 +1,4 @@
 import { FileArchive, Home, Inbox, Search,MailCheck, ChartAreaIcon } from "lucide-react";
-import Image from "next/image";
 import {
     SidebarContent,
     SidebarGroup,

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect,useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import Link from 'next/link'
 import Footer from '@/components/Layout/Footer'
 import '../globals.css'
@@ -16,40 +16,42 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const mobileMenuRef = useRef<HTMLDivElement>(null)
     useEffect(() => {
         const fetchData = async () => {
-          try {
-            const res = await fetch('/api/data')
-            if (!res.ok) throw new Error('Failed to fetch')
-            const data = await res.json()
-            setNavlink(data.NavLinkData)
-          } catch (error) {
-            console.error('Error fetching service', error)
-          }
+            try {
+                const res = await fetch('/api/data')
+                if (!res.ok) throw new Error('Failed to fetch')
+                const data = await res.json()
+                setNavlink(data.NavLinkData)
+            } catch (error) {
+                console.error('Error fetching service', error)
+            }
         }
         fetchData()
-      }, [])
-    
-      const handleScroll = () => {
+    }, [])
+
+    const handleScroll = useCallback(() => {
         setSticky(window.scrollY >= 80)
-      }
-    
-      const handleClickOutside = (event: MouseEvent) => {
+    }, [])
+
+    const handleClickOutside = useCallback((event: MouseEvent) => {
         if (
-          mobileMenuRef.current &&
-          !mobileMenuRef.current.contains(event.target as Node) &&
-          navbarOpen
+            mobileMenuRef.current &&
+            !mobileMenuRef.current.contains(event.target as Node) &&
+            navbarOpen
         ) {
-          setNavbarOpen(false)
+            setNavbarOpen(false)
         }
-      }
-    
-      useEffect(() => {
+    }, [navbarOpen])
+
+    useEffect(() => {
         window.addEventListener('scroll', handleScroll)
         document.addEventListener('mousedown', handleClickOutside)
+
         return () => {
-          window.removeEventListener('scroll', handleScroll)
-          document.removeEventListener('mousedown', handleClickOutside)
+            window.removeEventListener('scroll', handleScroll)
+            document.removeEventListener('mousedown', handleClickOutside)
         }
-      }, [navbarOpen])
+    }, [handleScroll, handleClickOutside])
+    
     return (
         <div className="min-h-screen flex flex-col bg-white">
             <header

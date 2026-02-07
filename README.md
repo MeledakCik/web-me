@@ -1,36 +1,148 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+```md
+# 🌐 Web CV & Portfolio – Muhammad Kasyaf
 
-## Getting Started
+Website CV & portofolio pribadi untuk menampilkan profil, skill, pengalaman, dan project dalam satu tampilan yang modern, profesional, dan responsif.
 
-First, run the development server:
+Dibangun menggunakan **Next.js**, **Tailwind CSS**, dan **shadcn/ui** dengan fokus pada performa, UI/UX, serta kemudahan pengelolaan konten.
+
+---
+
+## ✨ Fitur Utama
+
+- 📄 Profil & Tentang Saya  
+- 🧠 Skill & Teknologi  
+- 💼 Pengalaman & Portofolio Project  
+- 📁 Penyimpanan File / Project (tampilan mirip GitHub)  
+- 📱 Responsive (Desktop & Mobile)  
+- 🎨 UI modern dengan Tailwind & shadcn/ui  
+- 🚀 Performa optimal menggunakan Next.js App Router  
+
+---
+
+## 🛠️ Teknologi yang Digunakan
+
+- Next.js (App Router)
+- React
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Lucide Icons
+- Node.js (API File System)
+- Git & GitHub
+
+---
+
+## 📂 Struktur Project
+
+```
+
+app/
+├─ api/
+│   └─ files/          # API untuk membaca folder & file
+├─ me/                 # Halaman CV / Dashboard
+├─ layout.tsx
+└─ page.tsx
+
+public/
+└─ penyimpanan/
+├─ script_ig/
+├─ game/
+└─ lainnya...
+
+````
+
+---
+
+## 🚀 Cara Menjalankan Project
+
+### 1️⃣ Clone Repository
+```bash
+git clone https://github.com/MeledakCik/web-me.git
+cd web-me
+````
+
+### 2️⃣ Install Dependencies
+
+```bash
+npm install
+```
+
+### 3️⃣ Jalankan Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Buka di browser:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 📁 Sistem Penyimpanan File
 
-To learn more about Next.js, take a look at the following resources:
+* Semua file & project disimpan di:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+public/penyimpanan
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+* Nama folder asli (contoh: `script_ig`)
+* Ditampilkan otomatis di UI menjadi **Script Ig**
+* Data dibaca melalui API menggunakan Node.js `fs`
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🎨 UI & UX
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+* Desain clean & profesional
+* Navigasi file mirip GitHub
+* Layout berbasis Card (shadcn/ui)
+* Animasi ringan dan halus
+
+---
+
+## 🔒 Keamanan
+
+* API hanya dapat membaca folder `public/penyimpanan`
+* Tidak memiliki akses ke file sistem lain
+
+---
+
+## 📌 Rencana Pengembangan
+
+* 🔍 Search file & project
+* 📄 Preview file (code viewer)
+* ⬇️ Download file
+* 🌙 Dark mode
+* 🧭 Breadcrumb navigation
+
+---
+
+## 👤 Tentang Saya
+
+**Muhammad Kasyaf Anugrah**
+Web Developer
+
+Fokus pada pengembangan web modern dengan performa tinggi dan UI yang nyaman digunakan.
+
+📫 Kontak:
+
+* Email: [kakangdanadam@gmail.com](mailto:ykakangdanadam@gmail.com)
+* GitHub: [https://github.com/MeledakCIk](https://github.com/MeledakCIk)
+* LinkedIn: [https://www.linkedin.com/in/muhammad-kasyaf-anugrah-576460314/](https://www.linkedin.com/in/muhammad-kasyaf-anugrah-576460314/)
+
+---
+
+## 📄 Lisensi
+
+Project ini merupakan **portfolio pribadi** dan bebas digunakan sebagai referensi pembelajaran.
+
+---
+
+⭐ Jika project ini bermanfaat, silakan beri **star** di GitHub!
+
+```
+
