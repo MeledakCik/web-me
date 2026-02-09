@@ -1,11 +1,15 @@
 "use client";
-import * as React from "react"
 import { useEffect, useState } from "react";
 import { DataTableDemo } from "@/components/tabel/page";
 import { motion } from "framer-motion";
 import { ShoppingBag, Users, Zap } from "lucide-react";
 import StatCard from "@/components/card/page";
-
+export const metadata = {
+  robots: {
+    index: false,
+    follow: false
+  }
+}
 export default function Dashboard() {
     const [ipAddress, setIpAddress] = useState<string>("-");
     const [totalRequests, setTotalRequests] = useState<number>(0);
