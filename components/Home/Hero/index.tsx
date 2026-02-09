@@ -27,6 +27,7 @@ const Hero = () => {
               KASYAF
             </span>{" "}
           </h1>
+          
           <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-xl">
             Seorang Mahasiswa yang mempunyai hoby membuat sesuatu menggunakan bahasa pemograman. mau dalam web,aplikasi mobile dan dekstop, atau bug tes, cyber security , database engineering dan banyak hal lain lagi {" "}
             <span className="font-semibold text-blue-500">Web Saya </span> — menyediakan akses script, kode yang sudah saya buat atau ada menu menu yang tersedia

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
+// ================== CONFIG ==================
 const allowedPaths = [
   "/",
   "/dashboard",
@@ -11,7 +12,6 @@ const allowedPaths = [
   "/a2f-instagram",
   "/me",
   "/file",
-  "/shell",
   "/shell/login",
   "/shell/logout"
 ]
@@ -31,76 +31,68 @@ const ipStore = new Map<string, { count: number; last: number }>()
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
   const ua = request.headers.get("user-agent") || ""
-  const isBot = /Googlebot|bingbot|Slurp|DuckDuckBot/i.test(ua)
-  if (isBot) {
-    return NextResponse.next()
+  if (pathname.startsWith("/shell")) {
+    const isBot = /Googlebot|bingbot|Slurp|DuckDuckBot/i.test(ua)
+    if (isBot) {
+      return new NextResponse("Not Found", { status: 404 })
+    }
   }
-  const ip =
-    request.headers.get("x-forwarded-for") ??
-    request.headers.get("x-real-ip") ??
-    "unknown"
 
-  const now = Date.now()
-
-  // 🕵️ Honeypot anti scanner
+  // ================== HONEYPOT ==================
   if (honeypotPaths.includes(pathname)) {
-    console.warn("HONEYPOT HIT:", ip, pathname)
     return new NextResponse("Forbidden", { status: 403 })
   }
 
-  // 🚨 Rate limit anti DDOS
-  const rec = ipStore.get(ip)
-  if (!rec) {
-    ipStore.set(ip, { count: 1, last: now })
-  } else {
-    if (now - rec.last < WINDOW_MS) {
-      rec.count++
-      if (rec.count > MAX_REQ) {
-        console.warn("RATE LIMIT BLOCK:", ip)
-        return new NextResponse("Too Many Requests", {
-          status: 429,
-          headers: { "Retry-After": "10" }
-        })
-      }
+  // ================== RATE LIMIT ==================
+  const ip =
+    request.headers.get("x-forwarded-for") ??
+    request.headers.get("x-real-ip")
+
+  if (ip) {
+    const now = Date.now()
+    const rec = ipStore.get(ip)
+
+    if (!rec) {
+      ipStore.set(ip, { count: 1, last: now })
     } else {
-      rec.count = 1
-      rec.last = now
-    }
-  }
-
-  // 🔐 Proteksi /shell pakai BASIC AUTH
-  if (pathname.startsWith("/shell") && pathname !== "/shell/logout") {
-    const auth = request.headers.get("authorization")
-
-    if (!auth || !auth.startsWith("Basic ")) {
-      return new NextResponse("Unauthorized", {
-        status: 401,
-        headers: {
-          "WWW-Authenticate": 'Basic realm="CIKAWAN SHELL"',
-          "Cache-Control": "no-store"
+      if (now - rec.last < WINDOW_MS) {
+        rec.count++
+        if (rec.count > MAX_REQ) {
+          return new NextResponse("Too Many Requests", {
+            status: 429,
+            headers: { "Retry-After": "10" }
+          })
         }
-      })
-    }
-
-    const base64 = auth.replace("Basic ", "")
-    const decoded = atob(base64)
-    const [user, pass] = decoded.split(":")
-
-    if (
-      user !== process.env.SHELL_USER ||
-      pass !== process.env.SHELL_PASS
-    ) {
-      return new NextResponse("Forbidden", { status: 403 })
+      } else {
+        rec.count = 1
+        rec.last = now
+      }
     }
   }
 
-  // 🚫 Block path aneh
+  // ================== PROTEKSI /shell (COOKIE ONLY) ==================
+  if (pathname.startsWith("/shell")) {
+    if (pathname === "/shell/login" || pathname === "/shell/logout") {
+      return NextResponse.next()
+    }
+
+    const isLogin = request.cookies.get("shell_login")?.value
+
+    if (isLogin !== "1") {
+      return NextResponse.redirect(
+        new URL("/shell/login", request.url)
+      )
+    }
+  }
+
+  // ================== BLOCK PATH ANEH ==================
   if (
     !allowedPaths.includes(pathname) &&
+    !pathname.startsWith("/shell") &&
     !pathname.startsWith("/_next") &&
     !pathname.startsWith("/api")
   ) {
-    return NextResponse.rewrite(new URL("/not-found", request.url))
+    return new NextResponse("Not Found", { status: 404 })
   }
 
   return NextResponse.next()

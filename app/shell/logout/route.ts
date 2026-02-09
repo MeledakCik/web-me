@@ -1,11 +1,10 @@
-// app/shell/logout/route.ts
 import { NextResponse } from "next/server"
+import { cookies } from "next/headers"
 
-export async function GET() {
-  return new NextResponse("Logged out", {
-    status: 401,
-    headers: {
-      "WWW-Authenticate": 'Basic realm="Shell Access"'
-    }
-  })
+export async function GET(request: Request) {
+  (await cookies()).delete("shell_login")
+
+  return NextResponse.redirect(
+    new URL("/shell/login", request.url)
+  )
 }
