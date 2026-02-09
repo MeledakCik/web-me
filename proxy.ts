@@ -11,8 +11,6 @@ const allowedPaths = [
   "/a2f-instagram",
   "/me",
   "/file",
-  "/shell/login",
-  "/shell/logout"
 ]
 
 const honeypotPaths = [
@@ -20,30 +18,43 @@ const honeypotPaths = [
   "/wp-login.php",
   "/phpmyadmin",
   "/.env",
-  "/config.php"
+  "/config.php",
 ]
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // HONEYPOT
+  // 🍯 HONEYPOT
   if (honeypotPaths.includes(pathname)) {
     return new NextResponse("Forbidden", { status: 403 })
   }
 
-  // PROTEKSI /shell
+  // 🔐 PROTEKSI /shell (USER + PASS)
   if (pathname.startsWith("/shell")) {
-    if (pathname === "/shell/login" || pathname === "/shell/logout") {
-      return NextResponse.next()
+    const auth = request.headers.get("authorization")
+
+    if (!auth || !auth.startsWith("Basic ")) {
+      return new NextResponse("Unauthorized", {
+        status: 401,
+        headers: {
+          "WWW-Authenticate": 'Basic realm="Shell Access"',
+        },
+      })
     }
 
-    const isLogin = request.cookies.get("shell_login")?.value
-    if (isLogin !== "1") {
-      return NextResponse.redirect(new URL("/shell/login", request.url))
+    const base64 = auth.split(" ")[1]
+    const decoded = Buffer.from(base64, "base64").toString()
+    const [user, pass] = decoded.split(":")
+
+    if (
+      user !== process.env.SHELL_USER ||
+      pass !== process.env.SHELL_PASS
+    ) {
+      return new NextResponse("Forbidden", { status: 403 })
     }
   }
 
-  // BLOCK PATH ANEH
+  // 🚫 BLOCK PATH ANEH
   if (
     !allowedPaths.includes(pathname) &&
     !pathname.startsWith("/shell") &&
@@ -57,5 +68,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: "/:path*"
+  matcher: "/:path*",
 }
