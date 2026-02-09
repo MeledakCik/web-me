@@ -1,5 +1,6 @@
 "use client"
 
+import ClientOnly from "@/components/ClientOnly"
 import * as React from "react"
 import {
     ColumnDef,
@@ -42,43 +43,43 @@ const data: Payment[] = [
         id: "m5gr84i9",
         Access: "active",
         status: "Verified",
-        github: "Dump Facebook ID",
+        Nama: "Dump Facebook ID",
     },
     {
         id: "3u1reuv4",
         Access: "active",
         status: "Verified",
-        github: "Graber Domain",
+        Nama: "Graber Domain",
     },
     {
         id: "derv1ws0",
         Access: "active",
         status: "Verified",
-        github: "Dump Instagram Name",
+        Nama: "Dump Instagram Name",
     },
     {
         id: "5kma53ae",
         Access: "pennding",
         status: "pending",
-        github: "Create Instagram Account",
+        Nama: "Create Instagram Account",
     },
     {
         id: "bhqecj4p",
         Access: "pennding",
         status: "pending",
-        github: "Create Facebook Account",
+        Nama: "Create Facebook Account",
     },
     {
         id: "asfghnb",
         Access: "active",
         status: "Verified",
-        github: "Email Generator",
+        Nama: "Email Generator",
     },
     {
         id: "ads12egaa",
         Access: "pending",
         status: "pending",
-        github: "A2F Otomatis Instagram",
+        Nama: "A2F Otomatis Instagram",
     },
 ]
 
@@ -87,7 +88,7 @@ export type Payment = {
     id: string
     Access: string
     status: "pending" | "Verified" | "Login" | "failed"
-    github: string
+    Nama: string
 }
 
 export const columns: ColumnDef<Payment>[] = [
@@ -121,10 +122,10 @@ export const columns: ColumnDef<Payment>[] = [
         ),
     },
     {
-        accessorKey: "github",
+        accessorKey: "Nama",
         header: "Nama Menu",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("github")}</div>
+            <div className="capitalize">{row.getValue("Nama")}</div>
         ),
     },
     {
@@ -141,25 +142,27 @@ export const columns: ColumnDef<Payment>[] = [
             const payment = row.original
 
             return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(payment.id)}
-                        >
-                            Copy payment ID
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>View customer</DropdownMenuItem>
-                        <DropdownMenuItem>View payment details</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <ClientOnly>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                <span className="sr-only">Open menu</span>
+                                <MoreHorizontal />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuItem
+                                onClick={() => navigator.clipboard.writeText(payment.id)}
+                            >
+                                Copy payment ID
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>View customer</DropdownMenuItem>
+                            <DropdownMenuItem>View payment details</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </ClientOnly>
             )
         },
     },
@@ -198,9 +201,9 @@ export function DataTableDemo() {
             <div className="flex items-center py-4">
                 <Input
                     placeholder="Filter Name..."
-                    value={(table.getColumn("github")?.getFilterValue() as string) ?? ""}
+                    value={(table.getColumn("Nama")?.getFilterValue() as string) ?? ""}
                     onChange={(event) =>
-                        table.getColumn("github")?.setFilterValue(event.target.value)
+                        table.getColumn("Nama")?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm border border-gray-500 text-gray-100"
                 />

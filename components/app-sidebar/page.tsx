@@ -13,7 +13,6 @@ const items = [
     { title: "Exploit", url: "/exploit", icon: Inbox },
     { title: "Mail Generator", url: "/mail", icon: MailCheck },
     { title: "File File", url: "/file", icon: FileArchive },
-    { title: "Chat AI", url: "#", icon: ChartAreaIcon },
     { title: "Halaman Cover", url: "/me", icon: Home },
 ];
 
