@@ -11,23 +11,30 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-export const metadata = {
-  title: "Nama Website | Keyword Utama",
+
+export const metadata: Metadata = {
+  metadataBase: new URL("https://kasyaf-cv.vercel.app"),
+
+  title: "Kasyaf CV | Programmer & Cyber Security",
   description:
-    "Deskripsi jelas, manusiawi, ada keyword utama, max 160 karakter",
-  keywords: [
-    "keyword utama",
-    "next js",
-    "vercel",
-    "nama brand"
-  ],
-  authors: [{ name: "kasyaf" }],
+    "CV Kasyaf – programmer dan cyber security specialist. Berpengalaman dalam web development, keamanan sistem, dan automation.",
+
+  authors: [{ name: "Kasyaf" }],
+
   openGraph: {
-    title: "kasyaf cv",
-    description: "saya ahli dalam bidang programer dan cyber security",
+    title: "Kasyaf CV | Programmer & Cyber Security",
+    description:
+      "CV Kasyaf – ahli di bidang programming dan cyber security, fokus pada web development dan keamanan sistem.",
     url: "https://kasyaf-cv.vercel.app",
     siteName: "CV Kasyaf",
-    images: ["/og.png"],
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "CV Kasyaf"
+      }
+    ],
     locale: "id_ID",
     type: "website"
   }
