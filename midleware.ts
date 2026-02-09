@@ -21,7 +21,7 @@ const honeypotPaths = [
   "/config.php",
 ]
 
-export function proxy(request: NextRequest) {
+export function midleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // 🍯 HONEYPOT
