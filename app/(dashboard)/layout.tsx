@@ -5,6 +5,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar/page";
 import { Menu, X } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import ChatAI from "@/components/ChatAI";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -40,7 +41,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
             <main className="min-h-screen bg-gray-900 w-full lg:pl-[250px]">
                 {children}
+                <ChatAI />
             </main>
+
         </SidebarProvider>
     );
 }

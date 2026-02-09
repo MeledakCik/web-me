@@ -1,4 +1,4 @@
-import { FileArchive, Home, Inbox, Search,MailCheck, ChartAreaIcon } from "lucide-react";
+import { FileArchive, Home, Inbox, LayoutDashboard,MailCheck, ChartAreaIcon } from "lucide-react";
 import {
     SidebarContent,
     SidebarGroup,
@@ -9,12 +9,12 @@ import {
 } from "@/components/ui/sidebar";
 
 const items = [
-    { title: "Dashboard", url: "/dashboard", icon: Home },
+    { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
     { title: "Exploit", url: "/exploit", icon: Inbox },
     { title: "Mail Generator", url: "/mail", icon: MailCheck },
     { title: "File File", url: "/file", icon: FileArchive },
     { title: "Chat AI", url: "#", icon: ChartAreaIcon },
-    { title: "Search", url: "#", icon: Search },
+    { title: "Halaman Cover", url: "/me", icon: Home },
 ];
 
 export function AppSidebar({ onItemClick }: { onItemClick?: () => void }) {
