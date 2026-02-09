@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
-// ================== CONFIG ==================
 const allowedPaths = [
   "/",
   "/dashboard",
@@ -24,16 +23,15 @@ const honeypotPaths = [
   "/config.php"
 ]
 
-// ================== MIDDLEWARE ==================
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // ================== HONEYPOT ==================
+  // HONEYPOT
   if (honeypotPaths.includes(pathname)) {
     return new NextResponse("Forbidden", { status: 403 })
   }
 
-  // ================== PROTEKSI /shell (COOKIE ONLY) ==================
+  // PROTEKSI /shell
   if (pathname.startsWith("/shell")) {
     if (pathname === "/shell/login" || pathname === "/shell/logout") {
       return NextResponse.next()
@@ -45,7 +43,7 @@ export function proxy(request: NextRequest) {
     }
   }
 
-  // ================== BLOCK PATH ANEH ==================
+  // BLOCK PATH ANEH
   if (
     !allowedPaths.includes(pathname) &&
     !pathname.startsWith("/shell") &&
@@ -55,11 +53,9 @@ export function proxy(request: NextRequest) {
     return new NextResponse("Not Found", { status: 404 })
   }
 
-  // ================== RETURN NEXT ==================
   return NextResponse.next()
 }
 
-// ================== CONFIG MATCHER ==================
 export const config = {
   matcher: "/:path*"
 }
