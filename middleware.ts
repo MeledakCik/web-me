@@ -21,7 +21,7 @@ const honeypotPaths = [
   "/config.php",
 ]
 
-export function midleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // 🍯 HONEYPOT
@@ -43,7 +43,7 @@ export function midleware(request: NextRequest) {
     }
 
     const base64 = auth.split(" ")[1]
-    const decoded = Buffer.from(base64, "base64").toString()
+    const decoded = atob(base64) // ✅ EDGE SAFE
     const [user, pass] = decoded.split(":")
 
     if (
@@ -64,7 +64,12 @@ export function midleware(request: NextRequest) {
     return new NextResponse("Not Found", { status: 404 })
   }
 
-  return NextResponse.next()
+  // 🌍 HALAMAN PUBLIK → SEO BOLEH
+  return NextResponse.next({
+    headers: {
+      "X-Robots-Tag": "index, follow",
+    },
+  })
 }
 
 export const config = {
